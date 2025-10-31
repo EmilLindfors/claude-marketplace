@@ -11,7 +11,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Emil Lindfors"
-      }
+      },
+      "commands": "./commands/",
+      "agents": "./agents/",
+      "hooks": "./hooks/"
     }
   ]
 }
