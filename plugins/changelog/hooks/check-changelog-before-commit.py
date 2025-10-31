@@ -71,6 +71,52 @@ def check_changelog_modified(cwd):
     return False
 
 
+def check_unused_sections(cwd):
+    """Check if changelog has empty/unused sections that should be cleaned up."""
+    # Find the changelog file
+    changelog_path = None
+    for pattern in ["CHANGELOG.md", "CHANGELOG.MD", "changelog.md"]:
+        path = Path(cwd) / pattern
+        if path.exists():
+            changelog_path = path
+            break
+
+    if not changelog_path:
+        return None  # No changelog found
+
+    try:
+        content = changelog_path.read_text(encoding='utf-8')
+    except Exception:
+        return None  # Can't read file
+
+    # Find the [Unreleased] section
+    unreleased_match = re.search(r'## \[Unreleased\](.*?)(?=## \[|\Z)', content, re.DOTALL)
+    if not unreleased_match:
+        return None  # No unreleased section
+
+    unreleased_section = unreleased_match.group(1)
+
+    # Check for empty category sections
+    categories = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security']
+    empty_sections = []
+
+    for category in categories:
+        # Look for the category heading
+        category_pattern = rf'### {category}\s*\n'
+        if re.search(category_pattern, unreleased_section):
+            # Check if there's content after the heading (before next heading or end)
+            content_pattern = rf'### {category}\s*\n(.*?)(?=###|\Z)'
+            match = re.search(content_pattern, unreleased_section, re.DOTALL)
+            if match:
+                section_content = match.group(1).strip()
+                # Filter out HTML comments
+                section_content = re.sub(r'<!--.*?-->', '', section_content, flags=re.DOTALL).strip()
+                if not section_content:
+                    empty_sections.append(category)
+
+    return empty_sections if empty_sections else None
+
+
 def main():
     """Main hook execution."""
     try:
@@ -87,7 +133,32 @@ def main():
 
         # Check if changelog has been modified
         if check_changelog_modified(cwd):
-            # Changelog has been updated, allow the commit
+            # Changelog has been updated, now check for unused sections
+            empty_sections = check_unused_sections(cwd)
+            if empty_sections:
+                # Warn about empty sections that should be cleaned up
+                sections_list = ", ".join(empty_sections)
+                output = {
+                    "decision": "block",
+                    "reason": f"""⚠️  Changelog cleanup required!
+
+Your CHANGELOG.md has empty sections that should be removed before committing:
+{sections_list}
+
+Please remove these empty category headings from the [Unreleased] section to keep the changelog clean.
+
+Only include category headings that have actual entries under them.
+
+💡 Tip: Edit CHANGELOG.md to remove the empty ### headings, then stage the file again.""",
+                    "hookSpecificOutput": {
+                        "hookEventName": "UserPromptSubmit",
+                        "additionalContext": "Empty changelog sections should be removed before committing.",
+                    },
+                }
+                print(json.dumps(output))
+                sys.exit(2)
+
+            # Changelog has been updated and is clean, allow the commit
             sys.exit(0)
 
         # Block the commit - no changelog update found
@@ -104,7 +175,7 @@ Please:
 4. Stage the changelog file: git add CHANGELOG.md
 5. Then retry your commit
 
-💡 Tip: You can use /changelog-add command to add an entry quickly.""",
+💡 Tip: You can use /changelog:changelog-add command to add an entry quickly.""",
             "hookSpecificOutput": {
                 "hookEventName": "UserPromptSubmit",
                 "additionalContext": "The changelog must be updated before committing code changes.",
