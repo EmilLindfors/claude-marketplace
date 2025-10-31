@@ -1,0 +1,17 @@
+{
+  "description": "Changelog validation before commits",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/check-changelog-before-commit.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

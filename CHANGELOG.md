@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Three Commands: `/changelog:changelog-init` to create new CHANGELOG.md, `/changelog:changelog-add` to add entries, and `/changelog:changelog-view` to review recent changes
   - Guided Workflow: Interactive prompts help users categorize changes (Added, Changed, Fixed, Removed, Security, Deprecated)
   - Agent Integration: Specialized changelog-writer agent ensures consistent formatting and quality
-  - Pre-commit Hook: `check-changelog-before-commit` hook prevents commits without changelog updates and ensures unused sections are cleaned up before release
+  - PreToolUse Hook: Automatic hook integration that intercepts git commits to validate changelog updates and ensure empty sections are cleaned up (configured in `plugins/changelog/hooks/hooks.json`)
 
 <!--
 Categories for changelog entries:

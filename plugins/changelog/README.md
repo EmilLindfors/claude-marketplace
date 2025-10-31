@@ -85,23 +85,7 @@ The plugin is already installed in this repository. To enable it in other projec
    }
    ```
 
-3. **Enable the hook** in `.claude/settings.json` or `.claude/settings.local.json`:
-   ```json
-   {
-     "hooks": {
-       "matchers": {
-         "all": {
-           "UserPromptSubmit": [
-             {
-               "command": ["python3", "plugins/aqc-changelog/hooks/check-changelog-before-commit.py"],
-               "timeout": 5000
-             }
-           ]
-         }
-       }
-     }
-   }
-   ```
+3. **Hooks are automatically enabled** when the plugin is enabled. No manual configuration needed!
 
 ## Usage
 
@@ -153,28 +137,33 @@ The plugin is already installed in this repository. To enable it in other projec
 
 ## Hook Configuration
 
-The changelog hook can be customized in your settings:
+The changelog hook is automatically configured when the plugin is enabled. It uses the `PreToolUse` hook to intercept git commit commands and validate that:
 
+1. The CHANGELOG.md file has been modified when committing code changes
+2. All empty category sections are removed before committing
+
+**Plugin hooks configuration** (in `plugins/changelog/hooks/hooks.json`):
 ```json
 {
+  "description": "Changelog validation before commits",
   "hooks": {
-    "matchers": {
-      "all": {
-        "UserPromptSubmit": [
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
           {
-            "command": ["python3", "plugins/aqc-changelog/hooks/check-changelog-before-commit.py"],
-            "timeout": 5000
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/check-changelog-before-commit.py",
+            "timeout": 5
           }
         ]
       }
-    }
+    ]
   }
 }
 ```
 
-**Configuration options**:
-- `timeout`: Maximum execution time in milliseconds (default: 5000)
-- `command`: Path to the hook script (use absolute or relative path)
+The hook runs automatically before any Bash tool executions, specifically targeting git commit operations.
 
 ## Troubleshooting
 
