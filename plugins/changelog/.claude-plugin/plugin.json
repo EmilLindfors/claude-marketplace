@@ -1,0 +1,9 @@
+{
+  "name": "aqc-changelog",
+  "description": "Changelog management plugin that ensures all code commits include proper changelog entries. Provides hooks to prevent commits without changelog updates, commands for managing changelog entries, and agents for writing well-formatted changelog entries following Keep a Changelog format.",
+  "version": "1.0.0",
+  "author": "AquaCloud",
+  "commands": "./commands",
+  "agents": "./agents",
+  "hooks": "./hooks"
+}
