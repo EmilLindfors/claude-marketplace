@@ -43,6 +43,16 @@
       "author": {
         "name": "Emil Lindfors"
       }
+    },
+    {
+      "name": "rust-modern-patterns",
+      "source": "./plugins/rust-modern-patterns",
+      "description": "Modern Rust patterns for Rust 2024 Edition. Includes let chains, async closures, gen blocks, match ergonomics, const improvements. Commands for modernization, edition upgrade, and pattern checking. Expert agent for Rust 2024 migration and best practices. Requires Rust 1.85.0+",
+      "category": "development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Emil Lindfors"
+      }
     }
   ]
 }
