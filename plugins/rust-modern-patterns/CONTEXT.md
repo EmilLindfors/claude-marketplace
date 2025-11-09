@@ -14,9 +14,11 @@ This plugin helps developers write modern, idiomatic Rust code using the latest 
 
 ### Version Timeline
 
+- **Rust 1.91.0** (Current stable) - Latest stable with all features
 - **Rust 1.85.0** (Feb 20, 2025) - Stabilized Rust 2024 Edition
 - **Rust 1.84.0** (Jan 9, 2025) - MSRV-aware resolver, new trait solver
 - **Rust 1.83.0** (Nov 28, 2024) - Const improvements
+- **Rust 1.75.0** (Dec 28, 2023) - Native async fn in traits
 
 ## Rust 2024 Edition Features
 
@@ -100,6 +102,11 @@ while let Some(item) = iterator.next()
 
 Async closures support `async || {}` syntax and work with `AsyncFn`, `AsyncFnMut`, and `AsyncFnOnce` traits.
 
+**Note on Async Traits:** Since Rust 1.75, async functions in traits are natively supported without the `async-trait` crate. The `async-trait` crate is now only needed for:
+- Supporting Rust < 1.75
+- Dynamic dispatch with `dyn Trait` (object safety)
+- Specific edge cases with complex generic patterns
+
 #### Before:
 ```rust
 let futures: Vec<_> = items
@@ -122,6 +129,64 @@ let futures: Vec<_> = items
     })
     .collect();
 ```
+
+### Async Functions in Traits (Native - No Macro Needed)
+
+**Stabilized:** Rust 1.75.0 (December 2023)
+
+Since Rust 1.75, async functions in traits are natively supported without the `async-trait` crate.
+
+#### When to Use Native Async Fn:
+
+```rust
+// ✅ Modern: No macro needed (Rust 1.75+)
+trait UserRepository {
+    async fn find_user(&self, id: &str) -> Result<User, Error>;
+    async fn save_user(&self, user: &User) -> Result<(), Error>;
+}
+
+impl UserRepository for PostgresRepo {
+    async fn find_user(&self, id: &str) -> Result<User, Error> {
+        // Native async, no macro needed!
+        self.db.query(id).await
+    }
+
+    async fn save_user(&self, user: &User) -> Result<(), Error> {
+        self.db.insert(user).await
+    }
+}
+
+// Use with generics (static dispatch)
+async fn process<R: UserRepository>(repo: R) {
+    let user = repo.find_user("123").await.unwrap();
+}
+```
+
+#### When async-trait is Still Needed:
+
+```rust
+// ❌ Native async fn doesn't support dyn Trait
+// ✅ Use async-trait for dynamic dispatch
+
+use async_trait::async_trait;
+
+#[async_trait]
+trait Plugin: Send + Sync {
+    async fn execute(&self) -> Result<(), Error>;
+}
+
+// This requires async-trait:
+let plugins: Vec<Box<dyn Plugin>> = vec![
+    Box::new(PluginA),
+    Box::new(PluginB),
+];
+```
+
+**Summary:**
+- **Static dispatch (generics):** Use native async fn ✅
+- **Dynamic dispatch (dyn Trait):** Use async-trait crate
+- **MSRV < 1.75:** Use async-trait crate
+- **Performance critical:** Use native async fn (zero-cost)
 
 #### Use Cases:
 

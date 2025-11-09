@@ -46,6 +46,16 @@ Check code for opportunities to use modern patterns.
 - Identify const-eligible code
 - Check for outdated idioms
 
+#### `/rust-async-traits`
+Convert async-trait macro usage to native async fn in traits.
+
+**Features**:
+- Detect async-trait usage
+- Convert to native async fn (Rust 1.75+)
+- Identify when async-trait is still needed (dyn Trait)
+- Remove unnecessary dependencies
+- Improve performance by removing boxing overhead
+
 ### 🤖 Modern Rust Expert Agent
 
 A specialized agent (`rust-modern-expert`) for modern Rust patterns.
@@ -103,6 +113,46 @@ let futures: Vec<_> = items
         process(item).await
     })
     .collect();
+```
+
+### Async Functions in Traits (Native Support)
+
+**Important:** Since Rust 1.75, async functions in traits are natively supported. The `async-trait` crate is now **optional** and only needed for:
+- Supporting older Rust versions (< 1.75)
+- Traits that need to be object-safe (dyn Trait)
+- Specific edge cases with complex generic bounds
+
+```rust
+// ✅ Modern: Native async fn in traits (Rust 1.75+)
+trait UserRepository {
+    async fn find_user(&self, id: &str) -> Result<User, Error>;
+    async fn save_user(&self, user: &User) -> Result<(), Error>;
+}
+
+// Implementation
+impl UserRepository for PostgresRepo {
+    async fn find_user(&self, id: &str) -> Result<User, Error> {
+        // Native async, no macro needed!
+        sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
+            .fetch_one(&self.pool)
+            .await
+    }
+
+    async fn save_user(&self, user: &User) -> Result<(), Error> {
+        // ...
+    }
+}
+
+// ❌ Only use async-trait when you need dyn Trait
+use async_trait::async_trait;
+
+#[async_trait]
+trait DynamicRepository {
+    async fn fetch(&self) -> Result<Data, Error>;
+}
+
+// This is needed for:
+let repo: Box<dyn DynamicRepository> = Box::new(my_repo);
 ```
 
 ### Improved Match Ergonomics
