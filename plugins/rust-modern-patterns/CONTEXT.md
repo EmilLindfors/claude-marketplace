@@ -6,9 +6,11 @@ This plugin helps developers write modern, idiomatic Rust code using the latest 
 
 ## Rust Version Information
 
-**Current Latest Stable:** Rust 1.85.0 (released February 20, 2025)
-**Current Edition:** Rust 2024 (stabilized in 1.85.0)
+**Current Latest Stable:** Rust 1.91.0 (as of November 2025)
+**Edition Introduced:** Rust 2024 (stabilized in 1.85.0)
 **Previous Edition:** Rust 2021
+
+**Note:** Rust 2024 Edition features require minimum Rust 1.85.0, but the latest stable version 1.91.0 includes all features plus additional improvements.
 
 ### Version Timeline
 

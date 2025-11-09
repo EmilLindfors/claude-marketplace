@@ -8,8 +8,9 @@ This plugin helps you write modern, idiomatic Rust code using the latest languag
 
 ## Current Rust Version
 
-**Latest Stable:** Rust 1.85.0 (released February 20, 2025)
+**Latest Stable:** Rust 1.91.0 (as of November 2025)
 **Edition:** Rust 2024 Edition (stabilized in 1.85.0)
+**Note:** Rust 2024 Edition features are available from Rust 1.85.0 onwards
 
 ## Features
 

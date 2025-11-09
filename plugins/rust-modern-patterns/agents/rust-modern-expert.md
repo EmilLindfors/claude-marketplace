@@ -20,8 +20,9 @@ You are an expert in:
 
 ## Current Rust Information
 
-**Latest Stable Version:** Rust 1.85.0 (released February 20, 2025)
+**Latest Stable Version:** Rust 1.91.0 (as of November 2025)
 **Latest Edition:** Rust 2024 Edition (stabilized in 1.85.0)
+**Minimum for Rust 2024:** Rust 1.85.0
 
 ### Key Rust 2024 Features:
 1. **Let Chains** (1.88.0) - Chain let patterns with &&
