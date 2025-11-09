@@ -13,6 +13,36 @@
       "author": {
         "name": "Emil Lindfors"
       }
+    },
+    {
+      "name": "rust-hexagonal",
+      "source": "./plugins/rust-hexagonal",
+      "description": "Hexagonal architecture plugin for Rust. Helps design and implement clean, maintainable Rust applications using the ports and adapters pattern. Includes commands for initializing project structure, adding ports and adapters, and an expert agent for architecture guidance",
+      "category": "development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Emil Lindfors"
+      }
+    },
+    {
+      "name": "rust-error-handling",
+      "source": "./plugins/rust-error-handling",
+      "description": "Error handling best practices plugin for Rust. Provides commands for creating custom error types with thiserror, refactoring panic-based code to Result-based error handling, and an expert agent for error handling guidance and code review",
+      "category": "development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Emil Lindfors"
+      }
+    },
+    {
+      "name": "rust-testing",
+      "source": "./plugins/rust-testing",
+      "description": "Testing best practices plugin for Rust. Includes commands for adding unit tests, integration tests, test analysis, and an expert agent for comprehensive testing strategies, mock implementations, and property-based testing",
+      "category": "development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Emil Lindfors"
+      }
     }
   ]
 }
