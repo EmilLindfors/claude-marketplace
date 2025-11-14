@@ -5,5 +5,28 @@
     ],
     "deny": [],
     "ask": []
+  },
+  "extraKnownMarketplaces": {
+    "lf-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "EmilLindfors/claude-marketplace"
+      }
+    },
+    "lf-marketplace-local": {
+      "source": {
+        "source": "directory",
+        "path": "/home/user/claude-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "changelog@lf-marketplace-local": true,
+    "rust-hexagonal@lf-marketplace-local": true,
+    "rust-error-handling@lf-marketplace-local": true,
+    "rust-testing@lf-marketplace-local": true,
+    "rust-modern-patterns@lf-marketplace-local": true,
+    "rust-data-engineering@lf-marketplace-local": true,
+    "rust-lambda@lf-marketplace-local": true
   }
 }
