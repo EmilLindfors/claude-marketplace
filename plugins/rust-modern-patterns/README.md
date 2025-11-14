@@ -56,6 +56,27 @@ Convert async-trait macro usage to native async fn in traits.
 - Remove unnecessary dependencies
 - Improve performance by removing boxing overhead
 
+#### `/rust-quality-check`
+Run comprehensive quality checks using modern tooling.
+
+**Features**:
+- Format verification (cargo fmt)
+- Linting with clippy (pedantic mode)
+- Test suite with cargo-nextest
+- Security audit with cargo-audit
+- Dependency validation with cargo-deny
+- SemVer checks for libraries
+
+#### `/rust-setup-tooling`
+Set up modern Rust development environment.
+
+**Features**:
+- Install essential tools (bacon, nextest, audit, deny)
+- Create configuration files (clippy.toml, rustfmt.toml, deny.toml)
+- Generate development scripts
+- Set up CI/CD workflows
+- Create developer documentation
+
 ### 🤖 Modern Rust Expert Agent
 
 A specialized agent (`rust-modern-expert`) for modern Rust patterns.
@@ -279,8 +300,84 @@ const TABLE_SIZE: usize = compute_table_size(1000);
 static TABLE: [u8; TABLE_SIZE] = [0; TABLE_SIZE];
 ```
 
+### 🎓 Skills
+
+#### Modern Rust Tooling Guide
+Expert guidance on the 2025 Rust tooling ecosystem:
+- **Development Tools**: bacon, cargo-nextest, cargo-watch
+- **Code Quality**: clippy (pedantic mode), rustfmt
+- **Security**: cargo-audit, cargo-deny, cargo-semver-checks
+- **Performance**: cargo-flamegraph, profiling workflows
+- **CI/CD**: Best practices and pipeline templates
+
+#### Type-Driven Design Patterns
+Leverage Rust's type system for compile-time correctness:
+- **Newtype Pattern**: Type-safe domain identifiers and units
+- **Typestate Pattern**: Enforce state machines at compile time
+- **Builder Pattern**: Compile-time validation of required fields
+- **Phantom Types**: Generic type safety without runtime cost
+- **Session Types**: Protocol enforcement through types
+
+#### Let Chains Advisor
+Master let chains for cleaner control flow:
+- Identify nested if-let patterns
+- Convert to flat let chains
+- Combine with guards and conditions
+
+#### Rust 2024 Migration
+Guide projects to Rust 2024 Edition:
+- Edition upgrade process
+- Breaking change detection
+- Modern pattern adoption
+
+#### Async Patterns Guide
+Modern async Rust patterns:
+- Native async fn in traits (no async-trait needed for Rust 1.75+)
+- Async closures for cleaner async code
+- Runtime selection (Tokio vs smol)
+- **Note**: async-std is discontinued as of 2025
+
+## Modern Development Workflow
+
+### Essential Tooling Setup
+
+```bash
+# Install modern development tools
+cargo install bacon              # Background compiler
+cargo install cargo-nextest      # Fast test runner
+cargo install cargo-audit        # Security scanning
+cargo install cargo-deny         # Dependency linting
+cargo install cargo-semver-checks # API compatibility
+cargo install flamegraph         # Performance profiling
+```
+
+### Daily Development
+
+1. **Start bacon for continuous feedback**:
+   ```bash
+   bacon clippy
+   ```
+
+2. **Run tests with nextest**:
+   ```bash
+   cargo nextest run
+   ```
+
+3. **Before committing**:
+   ```bash
+   cargo fmt               # Format code
+   cargo clippy -- -D warnings  # Lint
+   cargo nextest run       # Test
+   cargo audit             # Security check
+   ```
+
+### CI/CD Integration
+
+See the [Rust Tooling Guide skill](skills/rust-tooling-guide/SKILL.md) for complete CI/CD pipeline templates.
+
 ## Best Practices
 
+### Language Features
 1. **Use Let Chains**: Reduce nesting with let chains in if/while
 2. **Async Closures**: Use async closures for better async ergonomics
 3. **Edition 2024**: Upgrade to edition = "2024" for latest features
@@ -289,6 +386,25 @@ static TABLE: [u8; TABLE_SIZE] = [0; TABLE_SIZE];
 6. **MSRV Awareness**: Set rust-version in Cargo.toml
 7. **Never Type**: Use `!` for functions that never return
 8. **Gen Blocks**: Use generators for custom iterators
+
+### Type-Driven Design
+9. **Newtype Pattern**: Wrap primitives for type safety
+10. **Typestate Pattern**: Encode state machines in types
+11. **Builder with Typestate**: Compile-time required fields
+12. **Phantom Types**: Zero-cost generic safety
+
+### Modern Tooling
+13. **Bacon**: Continuous feedback during development
+14. **Cargo-nextest**: Faster, more reliable tests
+15. **Clippy Pedantic**: Catch issues early
+16. **Cargo-audit**: Weekly security scans
+17. **Cargo-deny**: License and dependency compliance
+18. **Flamegraph**: Profile before optimizing
+
+### Async Runtime Selection (2025)
+19. **Tokio**: Production-ready, largest ecosystem
+20. **smol**: Simpler, smaller, modular alternative
+21. **Avoid async-std**: Discontinued as of 2025
 
 ## Installation
 

@@ -605,8 +605,151 @@ When migrating to Rust 2024:
 - [ ] Use `!` for never-returning functions
 - [ ] Review and test all changes
 
+## Async Runtime Selection (2025 Update)
+
+### Current State of Async Runtimes
+
+**async-std Discontinued (2025)**
+- The async-std project was officially discontinued in early 2025
+- The README now directs users to smol instead
+- **Do not use async-std for new projects**
+
+### Recommended Async Runtimes
+
+#### Tokio - The Production Standard
+
+**When to use:**
+- Production applications requiring stability
+- Large projects with complex async needs
+- When using ecosystem crates (Axum, Hyper, Tonic, Reqwest)
+- Multi-threaded async workloads
+
+**Benefits:**
+- Over 437M downloads - battle-tested
+- Largest ecosystem and community
+- Most libraries built with/for Tokio
+- Excellent documentation and tooling
+
+**Example:**
+```toml
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+```
+
+#### smol - The Simple Alternative
+
+**When to use:**
+- Simpler applications
+- When you want to understand the runtime
+- Embedded systems or constrained environments
+- Single-threaded use cases
+
+**Benefits:**
+- ~1000 lines of code - easy to understand
+- Smaller, more modular
+- Lower overhead
+- Successor to async-std's core
+
+**Example:**
+```toml
+[dependencies]
+smol = "2.0"
+```
+
+### Migration from async-std
+
+If you're using async-std, migrate to either:
+
+1. **Tokio** (recommended for most):
+   ```rust
+   // Old
+   use async_std::task;
+
+   // New
+   use tokio::task;
+   ```
+
+2. **smol** (for simple use cases):
+   ```rust
+   // Old
+   async_std::task::block_on(async_main())
+
+   // New
+   smol::block_on(async_main())
+   ```
+
+### Runtime Compatibility
+
+For libraries that need to work with multiple runtimes:
+```toml
+[dependencies]
+async-compat = "0.2"  # Compatibility between runtimes
+```
+
+### Best Practice: Runtime Selection
+
+- **Binaries**: Choose one runtime (usually Tokio)
+- **Libraries**: Be runtime-agnostic when possible
+  - Don't spawn tasks in library code
+  - Accept generic futures
+  - Let the application choose the runtime
+
+## Modern Development Tooling (2025)
+
+### Essential Tools
+
+1. **bacon** - Background compiler with continuous feedback
+2. **cargo-nextest** - Faster, more reliable test runner
+3. **clippy (pedantic)** - Enhanced linting for code quality
+4. **cargo-audit** - Security vulnerability scanning
+5. **cargo-deny** - Dependency, license, and source validation
+6. **cargo-semver-checks** - API compatibility verification
+7. **cargo-flamegraph** - Performance profiling
+
+### Development Workflow
+
+```bash
+# Setup
+cargo install bacon cargo-nextest cargo-audit cargo-deny
+
+# Development
+bacon clippy          # Continuous feedback
+cargo nextest run     # Fast tests
+
+# Pre-commit
+cargo fmt
+cargo clippy -- -D warnings
+cargo nextest run
+cargo audit
+```
+
+### Type-Driven Design Patterns
+
+**Newtype Pattern** - Type-safe identifiers:
+```rust
+struct UserId(Uuid);
+struct OrderId(Uuid);
+// Prevents mixing user IDs with order IDs
+```
+
+**Typestate Pattern** - Compile-time state enforcement:
+```rust
+struct Connection<State> { /* ... */ }
+struct Connected;
+struct Authenticated;
+
+impl Connection<Connected> {
+    fn authenticate(self) -> Connection<Authenticated> { /* ... */ }
+}
+
+impl Connection<Authenticated> {
+    fn send_data(&self) { /* ... */ }  // Only available when authenticated
+}
+```
+
 ## Best Practices
 
+### Language Features
 1. **Use Let Chains for Clarity**: Replace nested if-let with flat let chains
 2. **Leverage Async Closures**: Simpler async iteration and callbacks
 3. **Const by Default**: Make functions const when possible
@@ -615,6 +758,26 @@ When migrating to Rust 2024:
 6. **MSRV Awareness**: Set rust-version in Cargo.toml
 7. **Never Type**: Use `!` for functions that don't return
 8. **Stay Updated**: Follow Rust release notes for new features
+
+### Type Safety
+9. **Newtype Pattern**: Wrap primitives for domain type safety
+10. **Typestate Pattern**: Encode state machines at compile time
+11. **Builder with Typestate**: Require fields at compile time
+12. **Phantom Types**: Zero-cost generic type safety
+
+### Modern Tooling
+13. **Use bacon**: For continuous development feedback
+14. **Use cargo-nextest**: For faster, more reliable tests
+15. **Run clippy pedantic**: Catch issues before they become bugs
+16. **Audit weekly**: cargo-audit for security vulnerabilities
+17. **Check licenses**: cargo-deny for compliance
+18. **Profile with flamegraphs**: Before optimizing performance
+
+### Async Runtime (2025)
+19. **Choose Tokio for production**: Largest ecosystem, battle-tested
+20. **Consider smol for simplicity**: Smaller, easier to understand
+21. **Avoid async-std**: Discontinued as of 2025
+22. **Keep libraries runtime-agnostic**: Let applications choose runtime
 
 ## Resources
 
