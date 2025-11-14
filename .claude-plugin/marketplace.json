@@ -53,6 +53,26 @@
       "author": {
         "name": "Emil Lindfors"
       }
+    },
+    {
+      "name": "rust-data-engineering",
+      "source": "./plugins/rust-data-engineering",
+      "description": "Data engineering plugin for Rust with object_store, Arrow, Parquet, DataFusion, and Iceberg. Build cloud-native data lakes, analytical query engines, and ETL pipelines. Commands for object storage, Parquet I/O, DataFusion queries, and Iceberg tables. Expert agent for data lake architecture and performance optimization",
+      "category": "development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Emil Lindfors"
+      }
+    },
+    {
+      "name": "rust-lambda",
+      "source": "./plugins/rust-lambda",
+      "description": "Comprehensive AWS Lambda development with Rust using cargo-lambda. Build, deploy, and optimize Lambda functions with support for IO-intensive, compute-intensive, and mixed workloads. Includes 12 commands for complete Lambda lifecycle management and an expert agent for architecture decisions",
+      "category": "development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Emil Lindfors"
+      }
     }
   ]
 }
