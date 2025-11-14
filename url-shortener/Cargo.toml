@@ -1,0 +1,21 @@
+[package]
+name = "url_shortener"
+version = "0.1.0"
+edition = "2024"
+authors = ["Emil Lindfors"]
+description = "A modern URL shortener library demonstrating hexagonal architecture and type-driven design"
+license = "MIT"
+
+[dependencies]
+thiserror = "2.0"
+rand = "0.8"
+url = "2.5"
+
+[dev-dependencies]
+proptest = "1.5"
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+strip = true
