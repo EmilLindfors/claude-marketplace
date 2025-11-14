@@ -64,6 +64,66 @@ Optimize Lambda for compute-intensive workloads.
 - Mixed async/sync strategies
 - Thread pool configuration
 
+#### `/lambda-iac`
+Set up Infrastructure as Code with SAM, Terraform, or CDK.
+
+**Features**:
+- SAM templates for serverless deployments
+- Terraform modules for Lambda infrastructure
+- CDK examples in TypeScript/Python
+- LocalStack integration for local testing
+
+#### `/lambda-observability`
+Implement advanced observability with OpenTelemetry and X-Ray.
+
+**Features**:
+- AWS X-Ray integration with xray-lite
+- OpenTelemetry setup with lambda-otel-lite
+- Structured logging with tracing
+- Distributed tracing patterns
+- CloudWatch Logs Insights queries
+
+#### `/lambda-secrets`
+Manage secrets and configuration securely.
+
+**Features**:
+- AWS Secrets Manager integration
+- Parameter Store usage patterns
+- Parameters and Secrets Lambda Extension
+- Caching strategies
+- Environment-specific configuration
+
+#### `/lambda-function-urls`
+Set up Lambda Function URLs and streaming responses.
+
+**Features**:
+- Direct HTTPS endpoints without API Gateway
+- REST API patterns with lambda_http
+- Response streaming for large payloads (up to 20MB)
+- CORS configuration
+- Authentication patterns
+
+#### `/lambda-cost`
+Deep dive into cost optimization strategies.
+
+**Features**:
+- AWS Lambda Power Tuning integration
+- Memory vs CPU allocation strategies
+- Rust-specific optimizations
+- ARM64 savings (20% cheaper)
+- Cost monitoring and alerts
+
+#### `/lambda-advanced`
+Advanced topics: extensions, containers, and more.
+
+**Features**:
+- Custom Lambda Extensions in Rust
+- Container image deployments
+- VPC configuration
+- Reserved concurrency
+- Blue/green deployments
+- Multi-region strategies
+
 ### 🤖 Lambda Expert Agent
 
 A specialized agent (`rust-lambda-expert`) for Lambda development.
